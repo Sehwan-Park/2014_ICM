@@ -1,0 +1,388 @@
+// initialize circles variables
+float x1 = 200;
+float y1 = 100;
+float x2 = 200;
+float y2 = 100;
+float x3 = 200;
+float y3 = 100;
+float x4 = 200;
+float y4 = 100;
+float x5 = 200;
+float y5 = 100;
+float x6 = 200;
+float y6 = 100;
+float x7 = 200;
+float y7 = 100;
+float x8 = 200;
+float y8 = 100;
+float x9 = 200;
+float y9 = 100;
+float x10 = 200;
+float y10 = 100;
+
+float vx1 = 0;
+float vy1 = 0;
+float vx2 = 0;
+float vy2 = 0;
+float vx3 = 0;
+float vy3 = 0;
+float vx4 = 0;
+float vy4 = 0;
+float vx5 = 0;
+float vy5 = 0;
+float vx6 = 0;
+float vy6 = 0;
+float vx7 = 0;
+float vy7 = 0;
+float vx8 = 0;
+float vy8 = 0;
+float vx9 = 0;
+float vy9 = 0;
+float vx10 = 0;
+float vy10 = 0;
+
+float speedX = 0;
+float speedY = 0.31;
+
+
+// initializen color of circle
+float colorR = 255;
+float colorG = 255;
+float colorB = 255;
+
+// declare time variable
+int t=0;
+
+// declare the size variables of circles
+float wW = 10;
+float hH = 10;
+
+//
+//
+// slide controller
+
+boolean dragging = false; // Is the slider being dragged?
+boolean rollover = false; // Is the mouse over the slider?
+
+// Rectangle variables for slider
+float x = 100;
+float y = 25;
+float w = 7;
+float h = 20;
+// Start and end of slider
+float sliderStart = 100;
+float sliderEnd = 300;
+// Offset for dragging slider
+float offsetX = 0;
+
+
+void setup() {
+  size(400, 400);
+  vx1 = random (-7, 7);
+  vx2 = random (-7, 7);
+  vx3 = random (-7, 7);
+  vx4 = random (-7, 7);
+  vx5 = random (-7, 7);
+  vx6 = random (-7, 7);
+  vx7 = random (-7, 7);
+  vx8 = random (-7, 7);
+  vx9 = random (-7, 7);
+  vx10 = random (-7, 7);
+}
+
+void draw() {
+
+  // increment of time variable
+  t = t + 1;
+
+  background(50);
+  noStroke();
+  fill(colorR, colorG, colorB);
+  // circle 1
+  ellipse(x1, y1, wW, hH);
+
+  x1 = x1 + vx1;
+  y1 = y1 + vy1;
+
+  vx1 = vx1 + speedX;
+  vy1 = vy1 + speedY;
+
+  if (y1 > height) {
+    y1 = height;
+    vy1 = vy1 * -0.88;
+  }
+  if (x1 < 1) {
+    x1 = 1;
+    vx1 = vx1 * -0.7;
+  }
+  if (x1 > width) {
+    x1 = width;
+    vx1 = vx1 * -0.7;
+  }
+
+  // circle 2
+  // after 2 sec;
+  if (t>120) {
+    ellipse(x2, y2, wW, hH);
+    x2= x2 + vx2;
+    y2 = y2 + vy2;
+
+    vx2 = vx2 + speedX;
+    vy2 = vy2 + speedY;
+
+    if (y2 > height) {
+      y2 = height;
+      vy2 = vy2 * -0.9;
+    }
+    if (x2 < 1) {
+      x2 = 1;
+      vx2 = vx2 * -0.75;
+    }
+    if (x2 > width) {
+      x2 = width;
+      vx2 = vx2 * -0.75;
+    }
+  }
+
+  // circle 3
+  if (t>240) {
+    ellipse(x3, y3, wW, hH);
+
+    x3 = x3 + vx3;
+    y3 = y3 + vy3;
+
+    vx3 = vx3 + speedX;
+    vy3 = vy3 + speedY;
+
+    if (y3 > height) {
+      y3 = height;
+      vy3 = vy3 * -0.85;
+    }
+    if (x3 < 1) {
+      x3 = 1;
+      vx3 = vx3 * -0.7;
+    }
+    if (x3 > width) {
+      x3 = width;
+      vx3 = vx3 * -0.7;
+    }
+  }
+
+  // circle 4
+  if (t>360) {
+    ellipse(x4, y4, wW, hH);
+
+    x4 = x4 + vx4;
+    y4 = y4 + vy4;
+
+    vx4 = vx4 + speedX;
+    vy4 = vy4 + speedY;
+
+    if (y4 > height) {
+      y4 = height;
+      vy4 = vy4 * -0.85;
+    }
+    if (x4 < 1) {
+      x4 = 1;
+      vx4 = vx4 * -0.68;
+    }
+    if (x4 > width) {
+      x4 = width;
+      vx4 = vx4 * -0.68;
+    }
+  }
+
+  // circle 5
+  if (t>480) {
+    ellipse(x5, y5, wW, hH);
+
+    x5 = x5 + vx5;
+    y5 = y5 + vy5;
+
+    vx5 = vx5 + speedX;
+    vy5 = vy5 + speedY;
+
+    if (y5 > height) {
+      y5 = height;
+      vy5 = vy5 * -0.9;
+    }
+    if (x5 < 1) {
+      x5 = 1;
+      vx5 = vx5 * -0.65;
+    }
+    if (x5 > width) {
+      x5 = width;
+      vx5 = vx5 * -0.65;
+    }
+  }
+
+  // circle 6
+  if (t>600) {
+    ellipse(x6, y6, wW, hH);
+
+    x6 = x6 + vx6;
+    y6 = y6 + vy6;
+
+    vx6 = vx6 + speedX;
+    vy6 = vy6 + speedY;
+
+    if (y6 > height) {
+      y6 = height;
+      vy6 = vy6 * -0.82;
+    }
+    if (x6 < 1) {
+      x6 = 1;
+      vx6 = vx6 * -0.6;
+    }
+    if (x6 > width) {
+      x6 = width;
+      vx6 = vx6 * -0.6;
+    }
+  }
+
+  // circle 7
+  if (t>720) {
+    ellipse(x7, y7, wW, hH);
+
+    x7 = x7 + vx7;
+    y7 = y7 + vy7;
+
+    vx7 = vx7 + speedX;
+    vy7 = vy7 + speedY;
+
+    if (y7 > height) {
+      y7 = height;
+      vy7 = vy7 * -0.79;
+    }
+    if (x7 < 1) {
+      x7 = 1;
+      vx7 = vx7 * -0.63;
+    }
+    if (x7 > width) {
+      x7 = width;
+      vx7 = vx7 * -0.63;
+    }
+  }
+
+  // circle 8
+  if (t>840) {
+    ellipse(x8, y8, wW, hH);
+
+    x8 = x8 + vx8;
+    y8 = y8 + vy8;
+
+    vx8 = vx8 + speedX;
+    vy8 = vy8 + speedY;
+
+    if (y8 > height) {
+      y8 = height;
+      vy8 = vy8 * -0.87;
+    }
+    if (x8 < 1) {
+      x8 = 1;
+      vx8 = vx8 * -0.68;
+    }
+    if (x8 > width) {
+      x8 = width;
+      vx8 = vx8 * -0.68;
+    }
+  }
+
+  // circle 9
+  if (t>960) {
+    ellipse(x9, y9, wW, hH);
+
+    x9 = x9 + vx9;
+    y9 = y9 + vy9;
+
+    vx9 = vx9 + speedX;
+    vy9 = vy9 + speedY;
+
+    if (y9 > height) {
+      y9 = height;
+      vy9 = vy9 * -0.85;
+    }
+    if (x9 < 1) {
+      x9 = 1;
+      vx9 = vx9 * -0.68;
+    }
+    if (x9 > width) {
+      x9 = width;
+      vx9 = vx9 * -0.68;
+    }
+  }
+
+  // circle 10
+  if (t>1080) {
+    ellipse(x10, y10, wW, hH);
+
+    x10 = x10 + vx10;
+    y10 = y10 + vy10;
+
+    vx10 = vx10 + speedX;
+    vy10 = vy10 + speedY;
+
+    if (y10 > height) {
+      y10 = height;
+      vy10 = vy10 * -0.7;
+    }
+    if (x10 < 1) {
+      x10 = 1;
+      vx10 = vx10 * -0.58;
+    }
+    if (x10 > width) {
+      x10 = width;
+      vx10 = vx10 * -0.58;
+    }
+  }
+
+  //
+  //
+  // slide controller
+  // Is it being dragged?
+  if (dragging) {
+    x = mouseX + offsetX;
+  }
+  // Keep rectangle within limits of slider
+  x = constrain(x, sliderStart, sliderEnd-w);
+
+  // Draw a line for slider
+  stroke(200);
+  line(sliderStart, y+h/2, sliderEnd, y+h/2);
+
+  stroke(200);
+  // Fill according to state
+  if (dragging) {
+    fill (50);
+  } else {
+    fill(175);
+  }
+  // Draw rectangle for slider
+  rect(x, y, w, h);
+
+  // Map is an amazing function that will map one range to another!
+  // Here we take the slider's range and map it to a value between 0 and 255
+  float b = map(x, sliderStart, sliderEnd-w, 10, 40);
+  wW = b;
+  hH = b;
+}
+
+
+void mousePressed() {
+  // Did I click on slider?
+  if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
+    dragging = true;
+    // If so, keep track of relative location of click to corner of rectangle
+    offsetX = x-mouseX;
+  } else {
+    colorR = random(255);
+    colorG = random(255);
+    colorB = random(255);
+  }
+}
+
+void mouseReleased() {
+  // Stop dragging
+  dragging = false;
+}
+
