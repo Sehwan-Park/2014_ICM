@@ -1,0 +1,58 @@
+
+class Ball {
+  float x = 200;
+  float y = 20;
+  float vx;
+  float vy = 0;
+
+  float size;
+  float elastic;
+
+  float speedX = 0;
+  float speedY = 0.4;
+
+
+  Ball(float typeSize, float r) {
+    size = typeSize;
+    elastic = r;
+    vx = random (-7, 7);
+  }
+
+  void display() {
+    noStroke();
+    ellipse(x, y, size, size);
+  }
+
+  void bounce() {
+
+    x = x + vx;
+    y = y + vy;
+    vx = vx + speedX;
+    vy = vy + speedY;
+
+    if (y > height) {
+      y = height;
+      vy = vy * -elastic;
+    }
+    if (y > height-3 && y < height) {
+      y = height-1;
+    }
+
+    if (x < 1) {
+      x = 1;
+      vx = vx * -0.6;
+    }
+
+    if (x > width) {
+      x = width;
+      vx = vx * -0.6;
+    }
+  }
+
+  void popping() {
+    if (y > height-2 && y <= height) {
+      vx = random(-15, 15);
+      vy = random(10, 30);
+    }
+  }
+}
