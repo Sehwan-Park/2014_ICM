@@ -1,0 +1,31 @@
+void setup () {
+  size (500, 500);
+}
+
+
+void draw () {
+
+  background (255);
+
+  float x = 0;
+  float y = 0;
+  float spacing = 50;
+
+  noStroke ();
+
+
+  colorMode(RGB);
+  for (x = 25; x < width; x = x + spacing) {
+    for (y = 25; y < height; y = y + spacing) {
+
+      // calculate the distance
+      float d = dist(x, y, mouseX, mouseY);
+      fill(100);
+      noStroke();
+      // vary the size
+      float sz = map(d,0,width,50,0);
+      ellipseMode(CENTER);
+      ellipse (x, y, sz, sz);
+    }
+  }
+}
