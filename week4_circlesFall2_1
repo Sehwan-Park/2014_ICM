@@ -1,0 +1,131 @@
+Ball b1;
+Ball b2;
+Ball b3;
+Ball b4;
+Ball b5;
+Ball b6;
+Ball b7;
+Ball b8;
+Ball b9;
+Ball b10;
+Ball b11;
+Ball b12;
+Ball b13;
+Ball b14;
+Ball b15;
+Ball b16;
+Ball b17;
+Ball b18;
+Ball b19;
+Ball b20;
+
+void setup() {
+  size(400, 400);
+  b1 = new Ball(15, 0.8);
+  b2 = new Ball(30, 0.8);
+  b3 = new Ball(10, 0.75);
+  b4 = new Ball(8, 0.75);
+  b5 = new Ball(22, 0.72);
+  b6 = new Ball(12, 0.72);
+  b7 = new Ball(14, 0.72);
+  b8 = new Ball(16, 0.75);
+  b9 = new Ball(18, 0.75);
+  b10 = new Ball(20, 0.8);
+  b11 = new Ball(24, 0.75);
+  b12 = new Ball(26, 0.72);
+  b13 = new Ball(12, 0.8);
+  b14 = new Ball(16, 0.8);
+  b15 = new Ball(15, 0.8);
+  b16 = new Ball(28, 0.8);
+  b17 = new Ball(24, 0.75);
+  b18 = new Ball(20, 0.68);
+  b19 = new Ball(10, 0.66);
+  b20 = new Ball(12, 0.8);
+}
+
+void draw() {
+  background(50);
+
+  b1.display();
+  b1.bounce();
+
+  b2.display();
+  b2.bounce();
+  
+  b3.display();
+  b3.bounce();
+  
+  b4.display();
+  b4.bounce();
+  
+  b5.display();
+  b5.bounce();
+  
+  b6.display();
+  b6.bounce();
+  
+  b7.display();
+  b7.bounce();
+  
+  b8.display();
+  b8.bounce();
+  
+  b9.display();
+  b9.bounce();
+  
+  b10.display();
+  b10.bounce();
+  
+  b11.display();
+  b11.bounce();
+  
+  b12.display();
+  b12.bounce();
+ 
+  b13.display();
+  b13.bounce();
+  
+  b14.display();
+  b14.bounce();
+  
+  b15.display();
+  b15.bounce();
+  
+  b16.display();
+  b16.bounce();
+  
+  b17.display();
+  b17.bounce();
+  
+  b18.display();
+  b18.bounce();
+  
+  b19.display();
+  b19.bounce();
+  
+  b20.display();
+  b20.bounce();
+}
+
+void mouseReleased() {
+  b1.popping();
+  b2.popping();
+  b3.popping();
+  b4.popping();
+  b5.popping();
+  b6.popping();
+  b7.popping();
+  b8.popping();
+  b9.popping();
+  b10.popping();
+  b11.popping();
+  b12.popping();
+  b13.popping();
+  b14.popping();
+  b15.popping();
+  b16.popping();
+  b17.popping();
+  b18.popping();
+  b19.popping();
+  b20.popping();
+}
