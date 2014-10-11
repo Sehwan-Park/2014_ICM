@@ -1,1 +1,45 @@
-w
+class Bars {
+
+  int posX;
+
+  Bars (int inputPosX) {
+    posX = inputPosX;
+  }
+
+  void display() {
+    stroke(255);
+    strokeWeight(1);
+    line(posX, 180, posX, 200);
+  }
+
+  void acting() {
+    stroke(255);
+    strokeWeight(1);
+    line(posX, random(160, 163), posX, 200);
+  }
+
+  void bouncing() {
+    if (mouseX > 0 && mouseX < 1000 && mouseY > 160 && mouseY < 200) {
+
+      if ( abs(mouseX - posX) < 3) {
+        line(posX, random(30, 70 ), posX, 200);
+      } else if ( abs(mouseX-posX) >=3 && abs(mouseX-posX)<6) {
+        line(posX, random(70, 100 ), posX, 200);
+      } else if ( abs(mouseX-posX) >=6 && abs(mouseX-posX)<9) {
+        line(posX, random(100, 125 ), posX, 200);
+      } else if ( abs(mouseX-posX) >=9 && abs(mouseX-posX)<13) {
+        line(posX, random(125, 140 ), posX, 200);
+      } else if ( abs(mouseX-posX) >=13 && abs(mouseX-posX)<20) {
+        line(posX, random(140, 150 ), posX, 200);
+      } else if ( abs(mouseX-posX) >=20 && abs(mouseX-posX)<30) {
+        line(posX, random(150, 157 ), posX, 200);
+      } else if ( abs(mouseX-posX) >=30 && abs(mouseX-posX)<45) {
+        line(posX, random(157, 162 ), posX, 200);
+      } else if ( abs(mouseX-posX) >=45 && abs(mouseX-posX)<65) {
+        line(posX, random(162, 170 ), posX, 200);
+      } else if ( abs(mouseX-posX) >=65 && abs(mouseX-posX)<95) {
+        line(posX, random(170, 175 ), posX, 200);
+      }
+    }
+  }
+}
