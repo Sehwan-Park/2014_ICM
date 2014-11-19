@@ -1,0 +1,992 @@
+
+////////////////////////////
+////////////////////////////
+//   2014 Fall Semester   //
+//   ICM, Final Project   //
+//      "Fourseason"      //
+//                        //
+//      by Sehwan Park    //
+////////////////////////////
+////////////////////////////
+
+
+//----------------------------------------------//
+//---------- Sound Processing - start ----------//
+
+import processing.sound.*;
+
+SinOsc oscB;
+float pitchB;
+
+SinOsc oscM;
+float pitchM;
+
+SinOsc oscP;
+float pitchP;
+
+Env envelopeB;
+Env envelopeM;
+Env envelopeP;
+
+int timeB;
+int timeM;
+int timeP;
+
+int Bwait;
+int Mwait; // !! should derived from bpm info
+int Pwait;
+
+int BpX = -40;   // based on pixel width and height of Bass image
+int BpY = 40;
+int MpX = -30;  // based on pixel width and height  Meldoy image
+int MpY = 10; 
+int PpX = 10;  // based on pixel width and height  Meldoy image
+int PpY = 10; 
+
+color Bc;  
+color Mc;
+color Pc;
+
+// Variables for property to play sound
+
+float ptyB;
+float ptyM;
+float ptyP;
+
+int pB1;
+int pB2;
+int pM1;
+int pM2;
+int pP1;
+int pP2;
+
+float sB1;
+float sB2;
+float vB1;
+float vB2;
+
+float sM1;
+float sM2;
+float vM1;
+float vM2;
+
+float sP1;
+float sP2;
+float vP1;
+float vP2;
+
+int gapB;
+int gapM;
+int gapP;
+
+int timeGapB;
+int timeGapM;
+int timeGapP;
+
+
+PImage[] playB = new PImage[3];
+PImage[] playM = new PImage[3];
+PImage[] playP = new PImage[3];
+
+
+//---------- Sound Processing - end   ----------//
+//----------------------------------------------//
+
+
+//--------------------------------------------------//
+//---------- Cover Page Processing - start ---------//
+
+PImage coverImg;
+PImage[] imgNY = new PImage[4];
+PImage[] imgPS = new PImage[4];
+PImage[] imgSecondPage = new PImage[8];
+
+int pageVar;
+
+//---------- Cover Page Processing - end   ---------//
+//--------------------------------------------------//
+
+
+
+//----------------------------------------------//
+//---------- Visual Processing - start ---------//
+
+import java.util.Arrays;
+
+PImage[] selectedImg = new PImage[10];
+int[] imgNum = new int[22];
+PImage[] sortedImg = new PImage[10];
+
+
+// assigns the SEASON
+String city;  
+String season; 
+
+// image number count
+int imgCount;
+
+
+//---------- Visual Processing - end   ---------//
+//----------------------------------------------//
+
+
+void setup() {
+
+  //--------------------------------------------------//
+  //---------- Cover Page Processing - start ---------//
+  size(1200, 600);
+  colorMode(RGB, 255, 255, 255);
+  coverImg = loadImage("CoverImages.jpg");
+
+  //---------- Cover Page Processing - end   ---------//
+  //--------------------------------------------------//
+
+
+
+  //--------------------------------------------------//
+  //---------- Cover Page Processing - start ---------//
+
+  // load all partial images (totally, 8EAs)
+  for (int i=0; i < imgNY.length; i++) {
+    imgNY[i] = loadImage("CoverImages_NY"+i+".jpg");
+    imgPS[i] = loadImage("CoverImages_PS"+i+".jpg");
+  }
+
+  // load all images which is used when selected
+  for (int i=0; i < 8; i ++) {
+    imgSecondPage[i] = loadImage("img"+i+".jpg");
+  }
+
+  image(coverImg, 0, 0);
+  pageVar = 0;
+
+  //---------- Cover Page Processing - end   ---------//
+  //--------------------------------------------------//
+
+
+
+  //----------------------------------------------//
+  //---------- Sound Processing - start ----------//
+
+  oscB = new SinOsc(this);
+  envelopeB = new Env(this);
+
+  oscM = new SinOsc(this);
+  envelopeM = new Env(this);
+
+  oscP = new SinOsc(this);
+  envelopeP = new Env(this);
+
+  timeB = millis();   //store the current time
+  timeM = millis();
+  timeP = millis();
+
+  imgCount = -2;
+
+  //---------- Sound Processing - end   ----------//
+  //----------------------------------------------//
+}
+
+
+
+void draw() {
+
+  //--------------------------------------------------//
+  //---------- Cover Page Processing - start ---------//
+
+
+  if ( imgCount == -2) {
+    // Show the images of each seasons
+    if ( pageVar ==  0) {
+      // Depending on the mouse location, a different rectangle is displayed.    
+      if (mouseX > 0 && mouseX < 300 && mouseY > 0 && mouseY < 300 ) {
+        image(coverImg, 0, 0);
+        image(imgNY[0], 0, 0);
+      } else if (mouseX > 300 && mouseX < 600 && mouseY > 0 && mouseY < 300 ) {
+        image(coverImg, 0, 0);
+        image(imgNY[1], 300, 0);
+      } else if (mouseX > 600 && mouseX < 900 && mouseY > 0 && mouseY < 300 ) {
+        image(coverImg, 0, 0);
+        image(imgNY[2], 600, 0);
+      } else if (mouseX > 900 && mouseX < 1200 && mouseY > 0 && mouseY < 300 ) {
+        image(coverImg, 0, 0);
+        image(imgNY[3], 900, 0);
+      } else if (mouseX > 0 && mouseX < 300 && mouseY > 300 && mouseY < 600 ) {
+        image(coverImg, 0, 0);
+        image(imgPS[0], 0, 300);
+      } else if (mouseX > 300 && mouseX < 600 && mouseY > 300 && mouseY < 600 ) {
+        image(coverImg, 0, 0);
+        image(imgPS[1], 300, 300);
+      } else if (mouseX > 600 && mouseX < 900 && mouseY > 300 && mouseY < 600 ) {
+        image(coverImg, 0, 0);
+        image(imgPS[2], 600, 300);
+      } else if (mouseX > 900 && mouseX < 1200 && mouseY > 300 && mouseY < 600 ) {
+        image(coverImg, 0, 0);
+        image(imgPS[3], 900, 300);
+      }
+    }
+  }
+  //---------- Cover Page Processing - end   ---------//
+  //--------------------------------------------------//
+
+
+
+
+
+  //----------------------------------------------//
+  //---------- Visual Processing - start ---------//
+
+  if (imgCount == 10) {
+    // assigns 'the number' to the images
+    imgNum[0] = round(random(0, 21));
+
+    for (int t = 1; t < 10; t ++) {
+      imgNum[t] = imgNum[t-1] + 2;
+
+      if (imgNum[t] > 21) {
+        imgNum[t] = round(random(0, 1));
+      }
+    }
+
+
+    // assigns images to array
+    for (int i=0; i < selectedImg.length; i++) {
+      selectedImg[i] = loadImage(city + season + "img" + imgNum[i] +".jpg");
+    }
+
+
+    // setting the size of pixelating & save - BASS
+    pixelateBASS(80);        
+    // setting the size of pixelating & save - MELODY
+    pixelateMELODY(20);    
+
+
+    // ** Make a pixel-sorted image **
+    // Make an array 0 to 2
+
+    for (int k = 0; k < 3; k ++) {
+
+      Pixel[] thepixels;
+      thepixels = new Pixel[selectedImg[k].pixels.length];
+
+      // Make all the pixel objects
+      selectedImg[k].loadPixels();
+      for (int i = 0; i < selectedImg[k].pixels.length; i++) {
+        thepixels[i] = new Pixel(selectedImg[k].pixels[i]);
+      }
+
+      // Sort them according to the compareTo function
+      Arrays.sort(thepixels);
+
+      // Re-organize an image with the sorted values
+      sortedImg[k] = createImage(selectedImg[k].width, selectedImg[k].height, RGB);
+
+      for (int i = 0; i < sortedImg[k].pixels.length; i++) {
+        sortedImg[k].pixels[i] = thepixels[i].c;
+      }
+      sortedImg[k].updatePixels();
+
+      // Draw the image
+      image(sortedImg[k], 0, 0);
+      // Save the image - PAD
+      save( city + season + "img" + k + "P" + ".jpg");
+    }
+
+
+    for (int k=0; k < 3; k ++) {
+      playB[k] = loadImage(city + season + "img" + k +"B.jpg");
+      playM[k] = loadImage(city + season + "img" + k +"M.jpg");
+      playP[k] = loadImage(city + season + "img" + k +"P.jpg");
+    }
+
+    imgCount = 0;
+  }
+
+  //---------- Visual Processing - end   ---------//
+  //----------------------------------------------//
+
+
+
+
+  ////////////// imgCount == 0 ////////////////
+  if (imgCount == 0) {
+    if (millis() - timeB >= Bwait) {  // metronome for Bass
+
+      if (BpX < 800) {
+        BpX = BpX + gapB;
+      } else if (BpX >= 800) {
+        BpX = 40;
+        BpY = BpY + gapB;
+      }
+
+      if (BpY >= 640 ) {
+        BpY = 40;
+        BpX = 40;
+        imgCount = 1;
+      }
+
+      oscB.play();
+      Bc = playB[imgCount].get(BpX, BpY);  // gets color for Bass    
+      pitchB = map(ptyB, 0, 255, pB1, pB2);
+      oscB.freq(pitchB);
+      envelopeB.play(oscB, sB1, sB2, vB1, vB2);
+
+      timeB = millis() - timeGapB; //also update the stored time
+
+      println("BASS : ", BpX, BpY, imgCount); //if it is, do something
+    }
+
+
+
+    if (millis() - timeM >= Mwait) {    // metronome for Melody
+
+      if (MpX < 800) {
+        MpX = MpX + 80;
+      } else if (MpX >= 800) {
+        MpX = 10;
+        MpY = MpY + gapM;
+      }
+
+      if (MpY >= 640 ) {
+        MpY = 10;
+        MpX = 10;
+        imgCount = 1;
+      }
+
+      oscM.play();
+      Mc = playM[imgCount].get (MpX, MpY);   // gets color for Melody
+      //   pitchM = map(green(Mc), 0, 255, 280, 400); 
+      pitchM = map(ptyM, 0, 255, pM1, pM2);    
+      oscM.freq(pitchM);
+      envelopeM.play(oscM, sM1, sM2, vM1, vM2);
+      timeM = millis() - timeGapM;         //also update the stored time
+
+      println("MELODY : ", MpX, MpY, imgCount); //if it is, do something
+    }
+
+
+    if (millis() - timeP >= Pwait) {  // metronome for Pad
+
+      if (PpY < 640) {
+        PpY = PpY + gapP;
+      } else if (PpY >= 640) {
+        PpY = 10;
+        PpX = PpX + 80;
+      }
+
+      if (PpX >= 800 ) {
+        PpY = 10;
+        PpX = 10;
+        imgCount = 1;
+      }
+
+      oscP.play();
+      Pc = playP[imgCount].get (PpX, PpY);   // gets color for Pad
+      pitchP = map(ptyP, 0, 255, pP1, pP2);
+      oscP.freq(pitchP);
+      envelopeP.play(oscP, sP1, sP2, vP1, vP2);
+
+      timeP = millis() - timeGapP; //also update the stored time
+
+      println("PAD : ", PpX, PpY, imgCount); //if it is, do something
+    }
+  }
+
+  ////////////// imgCount == 1 ////////////////
+  if (imgCount == 1) {
+    if (millis() - timeB >= Bwait) {  // metronome for Bass
+
+      if (BpX < 800) {
+        BpX = BpX + gapB;
+      } else if (BpX >= 800) {
+        BpX = 40;
+        BpY = BpY + gapB;
+      }
+
+      if (BpY >= 640 ) {
+        BpY = 40;
+        BpX = 40;
+        imgCount = 2;
+      }
+
+      oscB.play();
+      Bc = playB[imgCount].get(BpX, BpY);  // gets color for Bass    
+      pitchB = map(ptyB, 0, 255, pB1, pB2);
+      oscB.freq(pitchB);
+      envelopeB.play(oscB, sB1, sB2, vB1, vB2);
+
+      timeB = millis() - timeGapB; //also update the stored time
+
+      println("BASS : ", BpX, BpY, imgCount); //if it is, do something
+    }
+
+
+
+    if (millis() - timeM >= Mwait) {    // metronome for Melody
+
+      if (MpX < 800) {
+        MpX = MpX + 80;
+      } else if (MpX >= 800) {
+        MpX = 10;
+        MpY = MpY + gapM;
+      }
+
+      if (MpY >= 640 ) {
+        MpY = 10;
+        MpX = 10;
+        imgCount = 2;
+      }
+
+      oscM.play();
+      Mc = playM[imgCount].get (MpX, MpY);   // gets color for Melody
+      //   pitchM = map(green(Mc), 0, 255, 280, 400); 
+      pitchM = map(ptyM, 0, 255, pM1, pM2);    
+      oscM.freq(pitchM);
+      envelopeM.play(oscM, sM1, sM2, vM1, vM2);
+      timeM = millis() - timeGapM;         //also update the stored time
+
+      println("MELODY : ", MpX, MpY, imgCount); //if it is, do something
+    }
+
+
+    if (millis() - timeP >= Pwait) {  // metronome for Pad
+
+      if (PpY < 640) {
+        PpY = PpY + gapP;
+      } else if (PpY >= 640) {
+        PpY = 10;
+        PpX = PpX + 80;
+      }
+
+      if (PpX >= 800 ) {
+        PpY = 10;
+        PpX = 10;
+        imgCount = 2;
+      }
+
+      oscP.play();
+      Pc = playP[imgCount].get (PpX, PpY);   // gets color for Pad
+      pitchP = map(ptyP, 0, 255, pP1, pP2);
+      oscP.freq(pitchP);
+      envelopeP.play(oscP, sP1, sP2, vP1, vP2);
+
+      timeP = millis() - timeGapP; //also update the stored time
+
+      println("PAD : ", PpX, PpY, imgCount); //if it is, do something
+    }
+  }
+  
+  
+    ////////////// imgCount == 2 ////////////////
+  if (imgCount == 2) {
+    if (millis() - timeB >= Bwait) {  // metronome for Bass
+
+      if (BpX < 800) {
+        BpX = BpX + gapB;
+      } else if (BpX >= 800) {
+        BpX = 40;
+        BpY = BpY + gapB;
+      }
+
+      if (BpY >= 640 ) {
+        BpY = 40;
+        BpX = 40;
+        imgCount = 3;
+      }
+
+      oscB.play();
+      Bc = playB[imgCount].get(BpX, BpY);  // gets color for Bass    
+      pitchB = map(ptyB, 0, 255, pB1, pB2);
+      oscB.freq(pitchB);
+      envelopeB.play(oscB, sB1, sB2, vB1, vB2);
+
+      timeB = millis() - timeGapB; //also update the stored time
+
+      println("BASS : ", BpX, BpY, imgCount); //if it is, do something
+    }
+
+
+
+    if (millis() - timeM >= Mwait) {    // metronome for Melody
+
+      if (MpX < 800) {
+        MpX = MpX + 80;
+      } else if (MpX >= 800) {
+        MpX = 10;
+        MpY = MpY + gapM;
+      }
+
+      if (MpY >= 640 ) {
+        MpY = 10;
+        MpX = 10;
+        imgCount = 3;
+      }
+
+      oscM.play();
+      Mc = playM[imgCount].get (MpX, MpY);   // gets color for Melody
+      //   pitchM = map(green(Mc), 0, 255, 280, 400); 
+      pitchM = map(ptyM, 0, 255, pM1, pM2);    
+      oscM.freq(pitchM);
+      envelopeM.play(oscM, sM1, sM2, vM1, vM2);
+      timeM = millis() - timeGapM;         //also update the stored time
+
+      println("MELODY : ", MpX, MpY, imgCount); //if it is, do something
+    }
+
+
+    if (millis() - timeP >= Pwait) {  // metronome for Pad
+
+      if (PpY < 640) {
+        PpY = PpY + gapP;
+      } else if (PpY >= 640) {
+        PpY = 10;
+        PpX = PpX + 80;
+      }
+
+      if (PpX >= 800 ) {
+        PpY = 10;
+        PpX = 10;
+        imgCount = 3;
+      }
+
+      oscP.play();
+      Pc = playP[imgCount].get (PpX, PpY);   // gets color for Pad
+      pitchP = map(ptyP, 0, 255, pP1, pP2);
+      oscP.freq(pitchP);
+      envelopeP.play(oscP, sP1, sP2, vP1, vP2);
+
+      timeP = millis() - timeGapP; //also update the stored time
+
+      println("PAD : ", PpX, PpY, imgCount); //if it is, do something
+    }
+  }
+
+
+
+  //--------------------------------------------------//
+  //---------- Cover Page Processing - start ---------//
+
+  // Turn into the page when mouse clicked on specific season
+
+  // Spring of New York
+  if (pageVar == 1) {
+    image(imgSecondPage[0], 0, 0);
+    // Property in BASS part
+    ptyB = green(Bc);
+    pB1 = 380;
+    pB2 = 500;
+    sB1 = 0.5;
+    sB2 = 0.8;
+    vB1 = 0.5;
+    vB2 = 0.2;
+    timeGapB = 0;
+    gapB = 160;    
+
+    // Property in MELODY part
+    ptyM = hue(Mc);
+    pM1 = 900;
+    pM2 = 1000;
+    sM1 = 0;
+    sM2 = 0;
+    vM1 = 0;
+    vM2 = 0;
+    timeGapM = 0;
+    gapM = 80;
+
+    // Property in PAD part
+    ptyP = brightness(Pc);
+    pP1 = 1200;
+    pP2 = 1500;
+    sP1 = 0;
+    sP2 = 0;
+    vP1 = 0;
+    vP2 = 0;
+    timeGapP = 0;
+    gapP = 80;
+
+    Bwait = 1200;
+    Mwait = 1200;
+    Pwait = 1200;
+  }
+  // Summer of New York
+  if (pageVar == 2) {
+    image(imgSecondPage[1], 0, 0);
+    // Property in BASS part
+    ptyB = green(Bc);
+    pB1 = 40;
+    pB2 = 60;
+    sB1 = 0.01;
+    sB2 = 0.05;
+    vB1 = 5;
+    vB2 = 3;
+    timeGapB = 0;
+    gapB = 160;    
+
+    // Property in MELODY part
+    ptyM = hue(Mc);
+    pM1 = 330;
+    pM2 = 450;
+    sM1 = 0.01;
+    sM2 = 0.05;
+    vM1 = 0.5;
+    vM2 = 0.25;
+    timeGapM = int(random(0, 100));
+    gapM = 80;
+
+    // Property in PAD part
+    ptyP = brightness(Pc);
+    pP1 = 650;
+    pP2 = 800;
+    sP1 = 0.01;
+    sP2 = 0.01;
+    vP1 = 0.07;
+    vP2 = 0.04;
+    timeGapP = int(random(-20, 20));
+    gapP = 40;
+
+    Bwait = 800;
+    Mwait = 250;
+    Pwait = 100;
+  }
+  // Autumn of New York
+  if (pageVar == 3) {
+    image(imgSecondPage[2], 0, 0);
+    // Property in BASS part
+    ptyB = brightness(Bc);
+    pB1 = 85;
+    pB2 = 125;
+    sB1 = 0.2;
+    sB2 = 0.2;
+    vB1 = 0.5;
+    vB2 = 0.2;
+    timeGapB = int(random(-30, 30));
+    gapB = 80;    
+
+    // Property in MELODY part
+    ptyM = green(Mc);
+    pM1 = 300;
+    pM2 = 430;
+    sM1 = 0.2;
+    sM2 = 0.3;
+    vM1 = 0.3;
+    vM2 = 0.15;
+    timeGapM = int(random(-30, 30));
+    gapM = 80;
+
+    // Property in PAD part
+    ptyP = blue(Pc);
+    pP1 = 350;
+    pP2 = 600;
+    sP1 = 0.2;
+    sP2 = 0.3;
+    vP1 = 0.05;
+    vP2 = 0.03;
+    timeGapP = int(random(-15, 15));
+    gapP = 40;
+
+    Bwait = 1200;
+    Mwait = 600;
+    Pwait = 300;
+  }
+  // Winter of New York
+  if (pageVar == 4) {
+    image(imgSecondPage[3], 0, 0);
+    // Property in BASS part
+    ptyB = brightness(Bc);
+    pB1 = 40;
+    pB2 = 70;
+    sB1 = 0.3;
+    sB2 = 0.5;
+    vB1 = 1;
+    vB2 = 0.7;
+    timeGapB = 0;
+    gapB = 80;    
+
+    // Property in MELODY part
+    ptyM = brightness(Mc);
+    pM1 = 180;
+    pM2 = 320;
+    sM1 = 0.5;
+    sM2 = 1;
+    vM1 = 0.05;
+    vM2 = 0.03;
+    timeGapM = 0;
+    gapM = 40;
+
+    // Property in PAD part
+    ptyP = brightness(Pc);
+    pP1 = 130;
+    pP2 = 230;
+    sP1 = 0.3;
+    sP2 = 0.5;
+    vP1 = 0.1;
+    vP2 = 0.05;
+    timeGapP = 0;
+    gapP = 15;
+
+    Bwait = 1600;
+    Mwait = 800;
+    Pwait = 200;
+  }
+  // Spring of Paris
+  if (pageVar == 5) {
+    image(imgSecondPage[4], 0, 0);
+    // Property in BASS part    
+    ptyB = green(Bc);
+    pB1 = 380;
+    pB2 = 650;
+    sB1 = 0.5;
+    sB2 = 0.8;
+    vB1 = 0.5;
+    vB2 = 0.2;
+    timeGapB = 0;
+    gapB = 160;    
+
+    // Property in MELODY part
+    ptyM = hue(Mc);
+    pM1 = 900;
+    pM2 = 1000;
+    sM1 = 0;
+    sM2 = 0;
+    vM1 = 0;
+    vM2 = 0;
+    timeGapM = 0;
+    gapM = 80;
+
+    // Property in PAD part
+    ptyP = brightness(Pc);
+    pP1 = 1200;
+    pP2 = 1500;
+    sP1 = 0;
+    sP2 = 0;
+    vP1 = 0;
+    vP2 = 0;
+    timeGapP = 0;
+    gapP = 80;
+
+    Bwait = 1200;
+    Mwait = 1200;
+    Pwait = 1200;
+  }
+  // Summer of Paris
+  if (pageVar == 6) {
+    image(imgSecondPage[5], 0, 0);
+    // Property in BASS part
+    ptyB = green(Bc);
+    pB1 = 40;
+    pB2 = 60;
+    sB1 = 0.01;
+    sB2 = 0.05;
+    vB1 = 5;
+    vB2 = 3;
+    timeGapB = 0;
+    gapB = 160;    
+
+    // Property in MELODY part
+    ptyM = hue(Mc);
+    pM1 = 330;
+    pM2 = 450;
+    sM1 = 0.01;
+    sM2 = 0.05;
+    vM1 = 0.5;
+    vM2 = 0.25;
+    timeGapM = int(random(0, 100));
+    gapM = 80;
+
+    // Property in PAD part
+    ptyP = brightness(Pc);
+    pP1 = 650;
+    pP2 = 800;
+    sP1 = 0.01;
+    sP2 = 0.01;
+    vP1 = 0.07;
+    vP2 = 0.04;
+    timeGapP = int(random(-20, 20));
+    gapP = 40;
+
+    Bwait = 800;
+    Mwait = 250;
+    Pwait = 100;
+  }
+  // Autumn of Paris
+  if (pageVar == 7) {
+    image(imgSecondPage[6], 0, 0);
+
+    // Property in BASS part
+    ptyB = brightness(Bc);
+    pB1 = 80;
+    pB2 = 120;
+    sB1 = 0.1;
+    sB2 = 0.2;
+    vB1 = 0.5;
+    vB2 = 0.2;
+    timeGapB = int(random(-30, 30));
+    gapB = 80;    
+
+    // Property in MELODY part
+    ptyM = green(Mc);
+    pM1 = 280;
+    pM2 = 400;
+    sM1 = 0.2;
+    sM2 = 0.3;
+    vM1 = 0.3;
+    vM2 = 0.15;
+    timeGapM = int(random(-30, 30));
+    gapM = 80;
+
+    // Property in PAD part
+    ptyP = blue(Pc);
+    pP1 = 350;
+    pP2 = 600;
+    sP1 = 0.2;
+    sP2 = 0.3;
+    vP1 = 0.05;
+    vP2 = 0.03;
+    timeGapP = int(random(-15, 15));
+    gapP = 40;
+
+    Bwait = 1200;
+    Mwait = 600;
+    Pwait = 300;
+  }
+  // Wiunter of Paris
+  if (pageVar == 8) {
+    image(imgSecondPage[7], 0, 0);
+    // Property in BASS part
+    ptyB = brightness(Bc);
+    pB1 = 40;
+    pB2 = 70;
+    sB1 = 0.3;
+    sB2 = 0.5;
+    vB1 = 1;
+    vB2 = 0.7;
+    timeGapB = 0;
+    gapB = 80;    
+
+    // Property in MELODY part
+    ptyM = brightness(Mc);
+    pM1 = 180;
+    pM2 = 320;
+    sM1 = 0.8;
+    sM2 = 1;
+    vM1 = 0.08;
+    vM2 = 0.05;
+    timeGapM = 0;
+    gapM = 40;
+
+    // Property in PAD part
+    ptyP = brightness(Pc);
+    pP1 = 130;
+    pP2 = 230;
+    sP1 = 0.2;
+    sP2 = 0.3;
+    vP1 = 0.1;
+    vP2 = 0.05;
+    timeGapP = 0;
+    gapP = 15;
+
+    Bwait = 1600;
+    Mwait = 800;
+    Pwait = 200;
+  }  
+
+  //---------- Cover Page Processing - end   ---------//
+  //--------------------------------------------------//
+}
+
+
+
+// Generate the event when mouse clicked
+// All the different variables are generated depends on the seasons
+
+
+void mousePressed() {
+
+  imgCount = 10;
+
+  if (mouseX > 0 && mouseX < 300 && mouseY > 0 && mouseY < 300 ) {
+    // Spring of New York
+    pageVar = 1;    
+    city = "N";
+    season = "S_";
+  } else if (mouseX > 300 && mouseX < 600 && mouseY > 0 && mouseY < 300 ) {
+    // Summer of New York
+    pageVar = 2;
+    city = "N";
+    season = "M_";
+  } else if (mouseX > 600 && mouseX < 900 && mouseY > 0 && mouseY < 300 ) {
+    // Autumn of New York
+    pageVar = 3;    
+    city = "N";
+    season = "A_";
+  } else if (mouseX > 900 && mouseX < 1200 && mouseY > 0 && mouseY < 300 ) {
+    // Winter of New York
+    pageVar = 4;
+    city = "N";
+    season = "W_";
+  } else if (mouseX > 0 && mouseX < 300 && mouseY > 300 && mouseY < 600 ) {
+    // Spring of Paris
+    pageVar = 5;
+    city = "P";
+    season = "S_";
+  } else if (mouseX > 300 && mouseX < 600 && mouseY > 300 && mouseY < 600 ) {
+    // Summer of Paris
+    pageVar = 6;
+    city = "P";
+    season = "M_";
+  } else if (mouseX > 600 && mouseX < 900 && mouseY > 300 && mouseY < 600 ) {
+    // Autumn of Paris
+    pageVar = 7;
+    city = "P";
+    season = "A_";
+  } else if (mouseX > 900 && mouseX < 1200 && mouseY > 300 && mouseY < 600 ) {
+    // Wiunter of Paris
+    pageVar = 8;
+    city = "P";
+    season = "W_";
+  }
+}
+
+
+void pixelateBASS(int pxSize) {
+
+  // use ratio of height/width...
+  float ratio;
+  ratio = 800 / 640;
+
+  // to set pixel height
+  int pxH = int(pxSize * ratio);
+
+  noStroke();
+  for (int i = 0; i < 3; i++) {
+    for (int x = 0; x < 800; x += pxSize) {
+      for (int y = 0; y < 640; y += pxH) {
+        fill(selectedImg[i].get(x, y));
+        rect(x, y, pxSize, pxH);
+      }
+    }
+    save( city + season + "img" + i + "B" + ".jpg");
+  }
+}
+
+
+void pixelateMELODY(int pxSize) {
+
+  // use ratio of height/width...
+  float ratio;
+  ratio = 800 / 640;
+
+  // to set pixel height
+  int pxH = int(pxSize * ratio);
+
+  noStroke();
+  for (int i = 0; i < 3; i++) {
+    for (int x = 0; x < 800; x += pxSize) {
+      for (int y = 0; y < 640; y += pxH) {
+        fill(selectedImg[i].get(x, y));
+        rect(x, y, pxSize, pxH);
+      }
+    }
+    save( city + season + "img" + i + "M" + ".jpg");
+  }
+}
